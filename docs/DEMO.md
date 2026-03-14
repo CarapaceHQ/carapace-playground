@@ -199,7 +199,7 @@ This creates an intuitive understanding of why behavioral telemetry for agents i
 
 Clone the repository.
 ```sh
-git clone https://github.com/carapace-ai/carapace-playground
+git clone https://github.com/CarapaceHQ/carapace-playground
 ```
 
 Start the demo environment.
