@@ -2,6 +2,8 @@
 
 Local demo environment for watching Carapace telemetry, detections, and policy outcomes in a small reference app.
 
+Support Carapace on Patreon: <https://www.patreon.com/carapacehq>
+
 ## Purpose
 
 This repo exists to make the first Carapace promise visible:
