@@ -1,0 +1,11 @@
+{
+  "name": "carapace-playground",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Local demo environment for the first Carapace protection loop.",
+  "type": "module",
+  "scripts": {
+    "dev": "node apps/demo/server.js"
+  }
+}
+
