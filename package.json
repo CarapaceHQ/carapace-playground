@@ -5,7 +5,10 @@
   "description": "Local demo environment for the first Carapace protection loop.",
   "type": "module",
   "scripts": {
-    "dev": "node apps/demo/server.js"
+    "dev": "node apps/demo/server.js",
+    "scenario:normal": "node scripts/run-normal-traffic.js",
+    "scenario:suspicious": "node scripts/run-suspicious-traffic.js",
+    "start": "node apps/demo/server.js",
+    "test": "node --test"
   }
 }
-

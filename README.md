@@ -32,7 +32,19 @@ The initial demo docs in `docs/` came from the earlier `ai-trust-layer` concept 
 npm run dev
 ```
 
-That command is a placeholder today until the first local demo app lands.
+Then drive the two first-slice traffic patterns:
+
+```bash
+npm run scenario:normal
+npm run scenario:suspicious
+```
+
+The demo exposes:
+
+- `GET /inspect/events` for raw emitted telemetry
+- `GET /inspect/summary` for score, flags, reasons, and event counts
+
+The suspicious scenario intentionally stacks multiple rule hits so operators can see why the recommendation escalates from benign traffic to blocking behavior.
 
 ## License
 
