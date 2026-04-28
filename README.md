@@ -28,6 +28,14 @@ The initial demo docs in `docs/` came from the earlier `ai-trust-layer` concept 
 
 ## Development
 
+Install the local package links:
+
+```bash
+npm install
+```
+
+Start the demo API:
+
 ```bash
 npm run dev
 ```
@@ -45,6 +53,15 @@ The demo exposes:
 - `GET /inspect/summary` for score, flags, reasons, and event counts
 
 The suspicious scenario intentionally stacks multiple rule hits so operators can see why the recommendation escalates from benign traffic to blocking behavior.
+
+## Local Package Links
+
+The playground consumes the first Carapace packages through local `file:` dependencies:
+
+- `@carapacehq/express`
+- `@carapacehq/detection-rules`
+
+That keeps the demo close to the real install path while avoiding a publish requirement during release-candidate work.
 
 ## License
 
