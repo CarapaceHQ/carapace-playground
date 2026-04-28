@@ -1,10 +1,10 @@
 import { createServer } from "node:http";
 
-import { createCarapaceInspector } from "../../../../carapace-js/packages/express/src/index.js";
+import { createCarapaceInspector } from "@carapacehq/express";
 import {
   createRuleEvaluator,
   loadCoreRules,
-} from "../../../../carapace-detection-rules/src/index.js";
+} from "@carapacehq/detection-rules";
 import { readJsonBody, sendJson } from "./json.js";
 
 function listProtectedEvents(inspector) {

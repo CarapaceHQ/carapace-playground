@@ -10,5 +10,9 @@
     "scenario:suspicious": "node scripts/run-suspicious-traffic.js",
     "start": "node apps/demo/server.js",
     "test": "node --test"
+  },
+  "dependencies": {
+    "@carapacehq/detection-rules": "file:../carapace-detection-rules",
+    "@carapacehq/express": "file:../carapace-js/packages/express"
   }
 }
