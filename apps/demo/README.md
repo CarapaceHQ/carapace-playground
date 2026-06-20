@@ -1,4 +1,19 @@
 # Demo App
 
-This directory will hold the first small API and traffic scripts for the local Carapace demo.
+Small API used by the local Carapace playground.
 
+Run from the repo root:
+
+```bash
+npm install
+npm run dev
+npm run scenario:normal
+npm run scenario:suspicious
+```
+
+Inspection endpoints:
+
+- `GET /inspect/events`
+- `GET /inspect/summary`
+- `GET /inspect/receipts`
+- `POST /inspect/reset`

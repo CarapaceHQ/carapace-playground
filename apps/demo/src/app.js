@@ -13,8 +13,15 @@ function listProtectedEvents(inspector) {
     .filter((event) => !event.actor?.path?.startsWith("/inspect"));
 }
 
+function listProtectedReceipts(inspector) {
+  return inspector
+    .listReceipts()
+    .filter((receipt) => !receipt.actor?.path?.startsWith("/inspect"));
+}
+
 function buildSummary(inspector) {
   const events = listProtectedEvents(inspector);
+  const receipts = listProtectedReceipts(inspector);
   const eventCounts = events.reduce((counts, event) => {
     counts[event.type] = (counts[event.type] || 0) + 1;
     return counts;
@@ -23,6 +30,8 @@ function buildSummary(inspector) {
   return {
     eventCounts,
     latestDecision: inspector.getLatestOutcome(),
+    latestReceipt: receipts.at(-1) || null,
+    receiptCount: receipts.length,
     totalEvents: events.length,
   };
 }
@@ -41,6 +50,11 @@ function createRouteHandler(inspector) {
 
     if (req.method === "GET" && req.url === "/inspect/summary") {
       sendJson(res, 200, buildSummary(inspector));
+      return;
+    }
+
+    if (req.method === "GET" && req.url === "/inspect/receipts") {
+      sendJson(res, 200, { receipts: listProtectedReceipts(inspector) });
       return;
     }
 

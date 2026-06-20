@@ -88,12 +88,19 @@ test("records a normal request and exposes it in inspection", async () => {
     method: "GET",
     path: "/inspect/events",
   });
+  const summary = await app.dispatch({
+    method: "GET",
+    path: "/inspect/summary",
+  });
   const eventTypes = eventTypesForProtectedTraffic(inspection.json.events);
 
   assert.equal(response.status, 200);
   assert.equal(response.headers["x-carapace-action"], "allow");
   assert.equal(response.headers["x-carapace-score"], "0");
   assert.deepEqual(eventTypes, ["api_request", "policy_action"]);
+  assert.equal(summary.json.receiptCount, 1);
+  assert.equal(summary.json.latestReceipt.type, "agent_action_receipt");
+  assert.equal(summary.json.latestReceipt.policy.action, "allow");
 });
 
 test("blocks suspicious prompt injection traffic", async () => {
@@ -112,6 +119,15 @@ test("blocks suspicious prompt injection traffic", async () => {
   assert.equal(response.headers["x-carapace-action"], "block");
   assert.deepEqual(response.json.reasons, ["carapace.prompt-injection-hit"]);
   assert.equal(response.json.flags.includes("prompt_injection"), true);
+
+  const receipts = await app.dispatch({
+    method: "GET",
+    path: "/inspect/receipts",
+  });
+
+  assert.equal(receipts.json.receipts.length, 1);
+  assert.equal(receipts.json.receipts[0].policy.action, "block");
+  assert.equal(receipts.json.receipts[0].risk.flags.includes("prompt_injection"), true);
 });
 
 test("captures auth failures for protected routes", async () => {
@@ -159,10 +175,19 @@ test("suspicious sequences stack rule hits and explain the recommendation", asyn
   assert.equal(blocked.status, 429);
   assert.equal(summary.json.latestDecision.action, "block");
   assert.equal(summary.json.latestDecision.score, 100);
+  assert.equal(summary.json.latestReceipt.policy.action, "block");
+  assert.equal(summary.json.latestReceipt.risk.score, 100);
   assert.equal(summary.json.latestDecision.flags.includes("prompt_injection"), true);
   assert.equal(summary.json.latestDecision.flags.includes("proxy_source"), true);
+  assert.equal(summary.json.latestReceipt.risk.flags.includes("proxy_source"), true);
   assert.equal(
     summary.json.latestDecision.reasons.includes("carapace.endpoint-enumeration"),
+    true,
+  );
+  assert.equal(
+    summary.json.latestReceipt.ruleHits.some(
+      (hit) => hit.ruleId === "carapace.endpoint-enumeration",
+    ),
     true,
   );
 });

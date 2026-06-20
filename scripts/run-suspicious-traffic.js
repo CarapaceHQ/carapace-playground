@@ -36,6 +36,7 @@ const blocked = await request("/v1/chat", {
 
 const summary = await request("/inspect/summary");
 const events = await request("/inspect/events");
+const receipts = await request("/inspect/receipts");
 
 console.log(
   JSON.stringify(
@@ -44,6 +45,7 @@ console.log(
       eventTypes: events.payload.events
         .filter((event) => !event.actor?.path?.startsWith("/inspect"))
         .map((event) => event.type),
+      latestReceipt: receipts.payload.receipts.at(-1),
       scenario: "suspicious",
       summary: summary.payload,
     },

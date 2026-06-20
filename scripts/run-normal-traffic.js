@@ -22,12 +22,14 @@ const chat = await request("/v1/chat", {
 });
 
 const summary = await request("/inspect/summary");
+const receipts = await request("/inspect/receipts");
 
 console.log(
   JSON.stringify(
     {
       scenario: "normal",
       chat,
+      latestReceipt: receipts.payload.receipts.at(-1),
       summary: summary.payload,
     },
     null,
